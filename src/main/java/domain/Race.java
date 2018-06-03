@@ -38,6 +38,11 @@ public class Race {
     public Race play(){
         //내부에 있는 Car들을 모두 정해진 바퀴수 만큼 움직인다. (레이스를 끝낸다)
 
+        RandomStrategy raceStrategy = new RandomStrategy();
+        for ( Car car: cars ) {
+            car.move(raceStrategy);
+        }
+
         return this;
     }
     public void move(){
