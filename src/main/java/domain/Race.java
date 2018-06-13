@@ -1,7 +1,9 @@
 package domain;
 
+import model.RaceResult;
 import service.RaceFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,7 +12,6 @@ import java.util.List;
 public class Race {
 
     private List<Car> cars;
-    private int numCars;
     private int numLaps;
 
     //객체에서 get으로 가져오는걸 피해야한다고 했는데
@@ -19,32 +20,26 @@ public class Race {
     //MEMO: strategy pattern?
     //장점: 다른 Config가 오면 다른 실행/추가적인 수행을 할 수 있다.
     //장점: 테스트할 때 테스트용 Config로 갈아끼울 수도 있다. 즉, 유연하다.
-    public Race(IConfig raceConfig) {
-        numCars = raceConfig.getNumCars();
-        numLaps = raceConfig.getNumLaps();
-        initialize();
+
+    //Config같은 객체로 하면 get으로 뽑아오는 수밖에 없을까?
+    public Race(List<Car> cars, IConfig raceConfig) {
+        this.numLaps = raceConfig.getNumLaps();
+        this.cars = cars;
     }
 
-    private void initialize() {
-
-        //factory 패턴
-        //장점:??
-        for (int i =0; i<numCars; i++){
-            cars.add(RaceFactory.createCar(0));
-        }
-
-    }
-
-    public Race play(){
+    private void play(){
         //내부에 있는 Car들을 모두 정해진 바퀴수 만큼 움직인다. (레이스를 끝낸다)
-
-        RandomStrategy raceStrategy = new RandomStrategy();
         for ( Car car: cars ) {
-            car.move(raceStrategy);
+            car.move(new RandomStrategy());
         }
-
-        return this;
     }
+    public RaceResult playOut(){
+        for (int i=0; i<numLaps; i++){
+            play();
+        }
+        return new RaceResult(cars);
+    }
+
     public void move(){
         //내부에 가지고 있는 Car들을 모두 `한번만` 움직인다.
 

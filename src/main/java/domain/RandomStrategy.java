@@ -7,8 +7,7 @@ public class RandomStrategy implements IStrategy{
     int speed;
 
     public RandomStrategy() {
-        Random randomGenerator = new Random();
-        this.speed = randomGenerator.nextInt(10);
+        this.speed = new Random().nextInt(10);
     }
 
     public boolean isMovable(){

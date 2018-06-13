@@ -9,9 +9,12 @@ public class Car {
         this.name = name;
     }
 
-    public void move(RandomStrategy raceStrategy) {
+    public void move(IStrategy raceStrategy) {
         if(raceStrategy.isMovable()){
             this.position++;
         }
+    }
+    public int getPosition(){
+        return position;
     }
 }
